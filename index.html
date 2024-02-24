@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora de Excesso de PBT e Multa</title>
+<link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="calculator">
+      <h2>Calculadora de Excesso de PBT e Multa</h2>
+      <form id="calculator-form">
+        <label for="pbt">PBT do Caminhão (kg):</label>
+        <input type="number" id="pbt" required /><br />
+        <label for="peso-atual">Peso Atual do Caminhão (kg):</label>
+        <input type="number" id="peso-atual" required /><br />
+        <button type="submit">Calcular Excesso de PBT e Multa</button>
+      </form>
+      <div id="resultado"></div>
+    </div>
+
+    <footer>
+      <p>
+        &copy; 2024 Calculadora de Excesso de PBT e Multa criado por
+        <a
+          href="https://github.com/maumaucb18"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Mauricio Pignoli vargas
+        </a>
+      </p>
+    </footer>
+
+    <script src="calc.js"></script>
+  </body>
+</html>
