@@ -1,51 +1,56 @@
-document
-        .getElementById("calculator-form")
-        .addEventListener("submit", function (event) {
-          event.preventDefault();
+function calcular() {
+  const pbtc = parseFloat(document.getElementById('pbtc').value);
+  const tara = parseFloat(document.getElementById('tara').value);
+  const pesoCarga = parseFloat(document.getElementById('pesoCarga').value);
 
-          var pbt = parseFloat(document.getElementById("pbt").value);
-          var pesoAtual = parseFloat(
-            document.getElementById("peso-atual").value
-          );
-          var excessoPBT = calcularExcessoPBT(pesoAtual, pbt);
-          var numFrações = Math.ceil(excessoPBT / 200);
-          var valorMulta = calcularMulta(excessoPBT);
+  if (isNaN(pbtc) || isNaN(tara) || isNaN(pesoCarga)) {
+    document.getElementById('result').textContent = 'Por favor, insira valores válidos.';
+    return;
+  }
 
-          var resultadoDiv = document.getElementById("resultado");
-          resultadoDiv.innerHTML =
-            "Excesso de PBT: " + excessoPBT.toFixed(2) + " kg<br>";
-          resultadoDiv.innerHTML +=
-            "Número de Frações Utilizadas: " + numFrações + "<br>";
-          resultadoDiv.innerHTML +=
-            "Valor Total da Multa: R$" + valorMulta.toFixed(2);
-        });
+  const capacidadeCarga = pbtc - tara;
+  const excessoPeso = pesoCarga - capacidadeCarga;
 
-      function calcularExcessoPBT(pesoAtual, pbt) {
-        var pbtComAdicional = pbt * 1.05; // Adiciona 5% ao PBT
-        var excesso = pesoAtual - pbtComAdicional;
-        return excesso > 0 ? excesso : 0;
-      }
+  let resultText = `Capacidade de carga: ${capacidadeCarga} kg\n`;
 
-      function calcularMulta(excessoPBT) {
-        var tabelaMulta = {
-          A: { limite: 600, valorPorFração: 5.32 },
-          B: { limite: 800, valorPorFração: 10.64 },
-          C: { limite: 1000, valorPorFração: 21.28 },
-          D: { limite: 3000, valorPorFração: 31.92 },
-          E: { limite: 5000, valorPorFração: 42.56 },
-          F: { limite: Infinity, valorPorFração: 53.2 }, // Última faixa (acima de 5000 kg)
-        };
+  if (excessoPeso > 0) {
+    const numFrações = Math.ceil(excessoPeso / 200);
+    const valorMulta = calcularMulta(excessoPeso);
 
-        var faixa = "";
-        for (var key in tabelaMulta) {
-          if (excessoPBT <= tabelaMulta[key].limite) {
-            faixa = key;
-            break;
-          }
-        }
+    resultText += `Excesso de peso: ${excessoPeso.toFixed(2)} kg\n`;
+    resultText += `Número de frações utilizadas: ${numFrações}\n`;
+    resultText += `Valor total da multa: R$ ${valorMulta.toFixed(2)}`;
+  } else {
+    resultText += 'Não há excesso de peso.';
+  }
 
-        var numFrações = Math.ceil(excessoPBT / 200);
-        var valorMulta =
-          numFrações * tabelaMulta[faixa].valorPorFração + 130.16;
-        return valorMulta;
-      }
+  document.getElementById('result').textContent = resultText;
+}
+
+function calcularMulta(excessoPeso) {
+  const tabelaMulta = {
+    A: { limite: 600, valorPorFração: 5.32 },
+    B: { limite: 800, valorPorFração: 10.64 },
+    C: { limite: 1000, valorPorFração: 21.28 },
+    D: { limite: 3000, valorPorFração: 31.92 },
+    E: { limite: 5000, valorPorFração: 42.56 },
+    F: { limite: Infinity, valorPorFração: 53.2 } // Última faixa (acima de 5000 kg)
+  };
+
+  let faixa = '';
+  for (let key in tabelaMulta) {
+    if (excessoPeso <= tabelaMulta[key].limite) {
+      faixa = key;
+      break;
+    }
+  }
+
+  const numFrações = Math.ceil(excessoPeso / 200);
+  let valorMulta = numFrações * tabelaMulta[faixa].valorPorFração + 130.16;
+
+  if (excessoPeso > 1000 && excessoPeso <= 5000) {
+    valorMulta += 293.47;
+  }
+
+  return valorMulta;
+}
