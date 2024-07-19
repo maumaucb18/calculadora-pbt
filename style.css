@@ -30,7 +30,8 @@ footer {
   bottom: 0;
 }
 
-button{ border-radius:10%; -webkit-border-radius:10%; -moz-border-radius:10%; -ms-border-radius:10%; -o-border-radius:10%;
+button {
+  border-radius: 10%;
 }
 
 a {
@@ -39,13 +40,20 @@ a {
 
 @media only screen and (max-width: 600px) {
   body {
-    max-width: 300px;
+    max-width: 500px;
     display: flex;
     flex-direction: column;
     align-items: center;
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 40px;
   }
-  h1{ text-align: center;}
+  h1 {
+    text-align: center;
+  }
+  footer {
+    text-align: center;
+    font-size: 1rem;
+    padding-bottom: 50px;
+  }
 }
